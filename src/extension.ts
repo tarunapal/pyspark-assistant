@@ -4,6 +4,7 @@ import { ErrorTranslator } from './errorTranslator';
 import { SparkUIIntegrator } from './sparkUIIntegrator';
 import { MemoryManager } from './memoryManager';
 import { DashboardPanel } from './webviews/dashboardPanel';
+import { PySparkCodeActionProvider } from './codeActionProvider';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('PySpark Assistant is now active');
@@ -107,6 +108,12 @@ export function activate(context: vscode.ExtensionContext) {
         analyzeCurrentFile,
         translateError,
         connectToSparkUI
+    );
+
+    context.subscriptions.push(
+        vscode.languages.registerCodeActionsProvider('python', new PySparkCodeActionProvider(), {
+            providedCodeActionKinds: PySparkCodeActionProvider.providedCodeActionKinds
+        })
     );
 }
 

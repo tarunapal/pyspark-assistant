@@ -7,6 +7,7 @@ const errorTranslator_1 = require("./errorTranslator");
 const sparkUIIntegrator_1 = require("./sparkUIIntegrator");
 const memoryManager_1 = require("./memoryManager");
 const dashboardPanel_1 = require("./webviews/dashboardPanel");
+const codeActionProvider_1 = require("./codeActionProvider");
 function activate(context) {
     console.log('PySpark Assistant is now active');
     // Initialize core components
@@ -85,6 +86,9 @@ function activate(context) {
     });
     // Register all commands
     context.subscriptions.push(openDashboard, analyzeCurrentFile, translateError, connectToSparkUI);
+    context.subscriptions.push(vscode.languages.registerCodeActionsProvider('python', new codeActionProvider_1.PySparkCodeActionProvider(), {
+        providedCodeActionKinds: codeActionProvider_1.PySparkCodeActionProvider.providedCodeActionKinds
+    }));
 }
 exports.activate = activate;
 function getErrorTranslationHtml(translation) {
